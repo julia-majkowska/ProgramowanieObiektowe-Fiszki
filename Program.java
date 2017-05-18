@@ -1,15 +1,31 @@
-class Drawing (Lista[] cards, String topic){
-  Lista[] draw(){
+class Fiszka //implements Serializable
+{
+    int number_of_fields;
+    Field [] pola;
+    Fiszka();
+}
+
+class Drawing{
+  Lista cardsToDraw;
+  Lista drawCards(Lista cardsToDraw, String topic){
+	//
+  }
+  Drawing(Lista cards){
+	cardsToDraw = cards;
   }
 }
 class Learning extends Drawing{
-  Lista toLearn = draw();
+
+  Lista toLearn = drawCards(cards, "topic");
   void learn(){
+	//
   }
 }
 class Repeating extends Drawing{
-  Lista toRepeat = draw();
+ 
+  Lista toRepeat = drawCards(cards, "topic");
   void repeat(){
+	//
   }
 }
 
