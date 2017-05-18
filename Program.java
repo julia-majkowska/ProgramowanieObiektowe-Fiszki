@@ -1,10 +1,3 @@
-class Fiszka //implements Serializable
-{
-    int number_of_fields;
-    Field [] pola;
-    Fiszka();
-}
-
 class Drawing{
   Lista cardsToDraw;
   Lista drawCards(Lista cardsToDraw, String topic){
