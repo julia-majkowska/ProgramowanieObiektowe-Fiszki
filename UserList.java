@@ -4,43 +4,50 @@ class User implements Serializable{
 	private static final long serialVersionUID = 95847483;
 //   Lista base = Lista();
 	String name;
+	int id;
   
 	public String toString(){
 		return name;
 	}
 	public void readObject(ObjectInputStream stream) throws ClassNotFoundException, IOException{
 		name = (String) stream.readObject();
+		id = stream.readInt();
 		//potem base
 	}
 	public void writeObject(ObjectOutputStream stream) throws IOException{
 		stream.writeObject(name);
+		stream.writeObject(id);
 		//potem base
 	}
-	User(String n){
+	User(String n, int nextid){
 		name = n;
+		id = nextid;
 		//Okienko do podania danych
 	}  
 	//dodatkowo: edit password, edit name, clone user
 }
 public class UserList implements Serializable{
-	int size = 0;
+	int size = 0, nextid = 0;
 	User[] UList = new User[10]; //od 1 do 9 (od 1 do size)
 	private static final long serialVersionUID = 95847483;
 	void readObject(ObjectInputStream stream) throws ClassNotFoundException, IOException{
 		size = stream.readInt();
+		nextid = stream.readInt();
+
 		System.out.println(size);
 		for ( int i = 1; i <= size; i ++ )
 			UList[i] = (User)stream.readObject();
 	}
 	void writeObject(ObjectOutputStream stream) throws IOException{
 		stream.writeInt(size);
+		stream.writeInt(nextid);
 		for ( int i = 1; i <= size; i ++ )
 			stream.writeObject(UList[i]);
 	}
 	void addUser(String n) throws SizeException{
 		if ( size == 9 ) throw new SizeException("Nie możesz dodać 10. użytkownika, to za dużo.");
 		size ++;
-		UList[size] = new User(n);
+		UList[size] = new User(n, nextid ++);
 	}
 	void deleteUser(int nr) throws SizeException{
 		if ( nr < 1 || nr > size ) throw new SizeException("Nie możesz usunąć użytkownika, który nie istnieje.");
