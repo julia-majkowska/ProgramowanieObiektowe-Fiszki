@@ -1,42 +1,49 @@
 import java.io.*;
 import java.util.Scanner;
 import java.util.Random;
-class Options{
+interface Options{
+	void showOptions();
+	int chooseOption();
+}
+class ListOptions implements Options{
 	String question;
 	String[] options;
-	int maxnr = 0;
-	void showOptions(){
+	public void showOptions(){
 		System.out.println(question);
-		if ( maxnr > 0 ) {
-			System.out.println("(max "+Integer.toString(maxnr)+")");
-		}
-		else{
-			for ( int i = 0; i < options.length; i ++ ) 
-				System.out.println(( i + 1 ) + ": " + options[i]);
-		}
+		for ( int i = 0; i < options.length && options[i] != null; i ++ ) 
+			System.out.println(( i + 1 ) + ": " + options[i]);
 	}
-	int chooseOption(){
+	public int chooseOption(){
 		Scanner scanner = new Scanner(System.in);
 		int nr = scanner.nextInt();
-		if ( maxnr > 0 ){ //liczba
-			while ( nr < 1 || nr > maxnr ){
-				System.out.println("Nie ma takiej opcji. Wybierz mniejszy numer.");
-				nr = scanner.nextInt();
-			}
-		}
-		else{ //opcje z listy
-			while ( nr < 1 || nr > options.length ){
-				System.out.println("Nie ma takiej opcji. Wybierz opcję z listy.");
-				nr = scanner.nextInt();
-			}
+		while ( nr < 1 || nr > options.length ){
+			System.out.println("Nie ma takiej opcji. Wybierz opcję z listy.");
+			nr = scanner.nextInt();
 		}
 		return nr;
 	}
-	Options(String q, String[] o){
+	ListOptions(String q, String[] o){
 		question = q;
 		options = o;
 	}
-	Options(String q, int n){
+}
+class NumberOptions implements Options{
+	String question;
+	int maxnr = 0;
+	public void showOptions(){
+		System.out.println(question);
+		System.out.println("(max "+Integer.toString(maxnr)+")");
+	}
+	public int chooseOption(){
+		Scanner scanner = new Scanner(System.in);
+		int nr = scanner.nextInt();
+		while ( nr < 1 || nr > maxnr ){
+			System.out.println("Nie ma takiej opcji. Wybierz mniejszy numer.");
+			nr = scanner.nextInt();
+		}
+		return nr;
+	}
+	NumberOptions(String q, int n){
 		question = q;
 		maxnr = n;
 	}
@@ -74,7 +81,9 @@ class Base{
 		size ++;
 		//check if this is a new topic -> add to topics
 	}
-	Base(){}
+	Base(){
+		topics[0] = "wszystkie";
+	}
 	Base (int s, NewFiszka[] nfB){
 		topics[0] = "wszystkie";
 		size = s;
@@ -88,25 +97,26 @@ class Base{
 	
 	void drawCards(){
 		String[] options = {"Konkretny temat", "Wszystkie"};
-		Options opt = new Options("Chcesz uczyć się słówek z konkretnego tematu czy z wszystkich?", options);
+		ListOptions opt = new ListOptions("Chcesz uczyć się słówek z konkretnego tematu czy z wszystkich?", options);
 		opt.showOptions();
 		int nr = opt.chooseOption();
-		String topic = "wszystkie";
 		if ( nr == 1 ) {
-			Options top = new Options("Z jakiego tematu chcesz się uczyć słówek?", inBase.topics);
+			ListOptions top = new ListOptions("Z jakiego tematu chcesz się uczyć słówek?", inBase.topics);
 			top.showOptions();
-			topicToLearn = inBase.topics[top.chooseOption()];
+			topicToLearn = inBase.topics[top.chooseOption()-1];
 		}
 		Base toDraw;
 		if ( topicToLearn == "wszystkie" ) toDraw = inBase;
 		else{
 			toDraw = new Base();
-			for ( int i = 0; i < inBase.size; i ++ )
-				if ( inBase.list[i].topic == topicToLearn ) toDraw.add(inBase.list[i]);
-			toDraw.topics[toDraw.topics_size] = topicToLearn;
-			toDraw.topics_size++;
+			for ( int i = 0; i < inBase.size; i ++ ){
+				if ( inBase.list[i].topic.equals(topicToLearn) ) toDraw.add(inBase.list[i]);
+				else System.out.println(inBase.list[i].topic);
+			}
+			toDraw.topics[1] = topicToLearn;
+			toDraw.topics_size = 2;
 		}
-		Options how_many= new Options("Ilu słówek chcesz się uczyć?", Math.min(toDraw.size, 50));
+		NumberOptions how_many= new NumberOptions("Ilu słówek chcesz się uczyć?", Math.min(toDraw.size, 50));
 		how_many.showOptions();
 		int howm = how_many.chooseOption(), size = toDraw.size;
 		Random generator = new Random();
@@ -145,7 +155,7 @@ class MainMenu{
 	Base newfBase;
 
 	String[] options = {"Dodaj słówka", "Ucz się nowych słówek", "Powtarzaj słówka" };
-	Options opt = new Options("Co chcesz zrobić?", options);
+	ListOptions opt = new ListOptions("Co chcesz zrobić?", options);
 	
 	void openMenu(){
 		opt.showOptions();
