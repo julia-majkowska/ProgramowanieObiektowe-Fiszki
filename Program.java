@@ -1,67 +1,77 @@
 import java.io.*;
+import java.lang.*;
+import java.util.*;
 import java.util.Scanner;
 import java.util.Random;
-interface Options{
-	void showOptions();
-	int chooseOption();
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.Calendar;
+import java.util.Date;
+class Options{
+	String badOption;
+	int max_size;
+	public int chooseOption(){
+		Scanner scanner = new Scanner(System.in);
+		int nr = scanner.nextInt();
+		while ( nr < 1 || nr > max_size ){
+			System.out.println(badOption);
+			nr = scanner.nextInt();
+		}
+		return nr;
+	}
 }
-class ListOptions implements Options{
+class ListOptions extends Options{
 	String question;
 	String[] options;
 	public void showOptions(){
 		System.out.println(question);
-		for ( int i = 0; i < options.length && options[i] != null; i ++ ) 
+		for ( int i = 0; i < max_size && options[i] != null; i ++ ) 
 			System.out.println(( i + 1 ) + ": " + options[i]);
-	}
-	public int chooseOption(){
-		Scanner scanner = new Scanner(System.in);
-		int nr = scanner.nextInt();
-		while ( nr < 1 || nr > options.length ){
-			System.out.println("Nie ma takiej opcji. Wybierz opcję z listy.");
-			nr = scanner.nextInt();
-		}
-		return nr;
 	}
 	ListOptions(String q, String[] o){
 		question = q;
 		options = o;
+		badOption = "Nie ma takiej opcji. Wybierz opcję z listy.";
+		max_size = options.length;
 	}
 }
-class NumberOptions implements Options{
+class NumberOptions extends Options{
 	String question;
-	int maxnr = 0;
 	public void showOptions(){
 		System.out.println(question);
-		System.out.println("(max "+Integer.toString(maxnr)+")");
-	}
-	public int chooseOption(){
-		Scanner scanner = new Scanner(System.in);
-		int nr = scanner.nextInt();
-		while ( nr < 1 || nr > maxnr ){
-			System.out.println("Nie ma takiej opcji. Wybierz mniejszy numer.");
-			nr = scanner.nextInt();
-		}
-		return nr;
+		System.out.println("(max "+Integer.toString(max_size)+")");
 	}
 	NumberOptions(String q, int n){
 		question = q;
-		maxnr = n;
+		badOption = "Nie ma takiej opcji. Wybierz mniejszy numer.";
+		max_size = n;
 	}
 }
 class NewFiszka{
 	String key, word, topic;
+	int id;
 	int level = 2;
+	boolean deleted = false;
 	public String toString(){
 		return topic + ":  " + key + " -> " + word;
 	}
 	NewFiszka(String k, String w, String t){
-		key = k;
-		word = w;
-		topic = t;
+		key = k; word = w; topic = t;
+	}
+	NewFiszka(String k, String w, String t, int i){
+		key = k; word = w; topic = t; id = i;
+	}
+}
+class RepeatFiszka{
+	NewFiszka fiszka;
+	Date date_of_rep;
+	int interval = 2;
+	RepeatFiszka(NewFiszka f, Date d){
+		fiszka = f;
+		date_of_rep = d;
 	}
 }
 class Base{
-	int size = 0, topics_size = 1;
+	int size = 0, topics_size = 1, nextid = 0;
 	NewFiszka[] list = new NewFiszka[10000];
 	String[] topics = new String[100]; //znowu size exc
 	
@@ -71,12 +81,15 @@ class Base{
 		String[] words = {"cat","dog","chicken","fish","horse","elephant","squirrel","parrot","mouse","giraffe"};
 		
 		for(int i = 0; i < 10; i ++ ) {
-			list[i] = new NewFiszka(keys[i], words[i], "zwierzęta");
+			list[i] = new NewFiszka(keys[i], words[i], "zwierzęta", nextid);
+			nextid ++;
 		}
 		topics[1] = "zwierzęta";
 		topics_size ++;
 	}
 	void add(NewFiszka nf){ //sizeException
+		nf.id = nextid;
+		nextid ++;
 		list[size] = nf;
 		size ++;
 		//check if this is a new topic -> add to topics
@@ -87,10 +100,14 @@ class Base{
 	Base (int s, NewFiszka[] nfB){
 		topics[0] = "wszystkie";
 		size = s;
-		for ( int i = 0; i < s; i ++ ) list[i] = nfB[i];
+		for ( int i = 0; i < s; i ++ ) {
+			list[i] = nfB[i];
+			nextid = Math.max ( list[i].id + 1, nextid );
+		}
 	}
 }
- class Drawing{
+class Drawing{
+	Date today;
 	Base inBase;
 	Base toLearn = new Base();
 	String topicToLearn = "wszystkie";
@@ -132,18 +149,104 @@ class Base{
   }
 }
 class Learning extends Drawing{
+	int[] shuffleArray ( int[] ar ){
+		Random generator = new Random();
+		for ( int i = ar.length - 1; i > 0; i -- ){
+			int poz = generator.nextInt(i + 1);
+			int t = ar[i];
+			ar[i] = ar[poz];
+			ar[poz] = t;
+		}
+		return ar;
+	}
+	int learnt = 0;
+	RepeatFiszka[] rf = new RepeatFiszka[1000]; //size exception
 	void learn(){
 		drawCards();
-		
-		for ( int i = 0; i < toLearn.size; i ++ ) 
-			System.out.println(toLearn.list[i]);
+
+		excercise1();
+		excercise2();
 	}
-	Learning (Base nfBase){
+	void excercise1(){
+		System.out.println("Przejrzyj słówka");
+		
+// 		shuffleArray(toLearn);
+		int k = 4;
+		for ( int i = 0; i < toLearn.size; i += k ) {
+			for ( int j = i; j < Math.min ( i + k, toLearn.size ); j ++ )
+				System.out.println(toLearn.list[j]);
+		}
+		System.out.println("1: Dalej");
+		Scanner scanner = new Scanner(System.in);
+		int nr = scanner.nextInt();
+		while ( nr != 1 ) nr = scanner.nextInt();
+		
+		for ( int i = 0; i < 40; i ++ ) System.out.println("");
+	}
+	void excercise2(){
+		System.out.println("Dopasuj słówka");
+		
+// 		shuffleArray(toLearn);
+		int k = 4;
+		boolean[] ok = new boolean[toLearn.size];
+		boolean all_ok = false;
+		
+		while ( all_ok == false ){
+			all_ok = true;
+			for ( int i = 0; i < toLearn.size; i += k ) {
+				if ( ok[i] == true ) continue;
+				ok[i] = true;
+				
+				int mink = Math.min ( k, toLearn.size - i );
+				int[] tmp_word = new int[mink];
+				for(int j = 0; j < mink; j ++ ) tmp_word[j] = i + j;
+				shuffleArray (tmp_word);
+				
+				for ( int j = 0; j < mink; j ++ )
+					System.out.println((j + 1) + ": "+ toLearn.list[tmp_word[j]].key);
+				System.out.println("");
+				
+				int[] tmp_key = new int[mink];
+				for(int j = 0; j < mink; j ++ ) tmp_key[j] = i + j;
+				shuffleArray(tmp_key);
+				
+				for ( int j = 0; j < mink; j ++ )
+					System.out.println((j + 1) + ": " + toLearn.list[tmp_key[j]].word);
+				System.out.println("");
+				
+				Scanner scanner = new Scanner(System.in);
+				
+				for ( int j = 0; j < mink; j ++ ) {
+					System.out.print((j + 1) + ": ");
+					int ans = scanner.nextInt();
+					if ( !toLearn.list[tmp_word[j]].word.equals(toLearn.list[tmp_key[ans-1]].word) ) ok[i] = false;
+				}
+				System.out.println("");
+				if ( ok[i] == false ){
+					all_ok = false;
+					System.out.println("Źle dopasowałeś/aś numery. Te słowa tłumaczą się tak:");
+					for ( int j = 0; j < mink; j ++ ){
+						System.out.println(toLearn.list[tmp_word[j]]);
+					}
+					for ( int j = 0; j < 40; j ++ ) System.out.println("");
+				}
+				else{
+					for ( int j = 0; j < mink; j ++ ){
+						rf[learnt] = new RepeatFiszka(toLearn.list[tmp_word[j]], today);
+						learnt ++;
+					}
+				}
+			}
+		}
+		System.out.println("Dobrze!");
+	}
+	Learning (Base nfBase, Date d){
 		inBase = nfBase;
+		today = d;
 	}
 }
 class Repeating extends Drawing{
- 
+//   Date today; 
 //   Lista toRepeat = drawCards(cards, "topic");
 //   void repeat(){
 // 	//
@@ -153,6 +256,7 @@ class Repeating extends Drawing{
 class MainMenu{
 	int user;
 	Base newfBase;
+	Calendar cal = Calendar.getInstance();
 
 	String[] options = {"Dodaj słówka", "Ucz się nowych słówek", "Powtarzaj słówka" };
 	ListOptions opt = new ListOptions("Co chcesz zrobić?", options);
@@ -164,13 +268,14 @@ class MainMenu{
 			//Julka
 		}
 		if ( cO == 2 ) {
-			Learning L = new Learning(newfBase);
+			Learning L = new Learning(newfBase, cal.getTime());
 			L.learn();
 		}
 	}
 	MainMenu(int u, Base db){
 		user = u;
 		newfBase = db;
+		cal.setTime(cal.getTime());
 	}
 }
 public class Program{
@@ -218,7 +323,6 @@ public class Program{
 		while ( user < 1 || user > theUsers.size ) {
 			if ( user == -1 ){
 				this.writeUsers();
-
 				//save everything
 				break;
 			}
