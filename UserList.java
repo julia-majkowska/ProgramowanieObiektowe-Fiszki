@@ -2,9 +2,10 @@ import java.io.*;
 import java.util.Scanner;
 class User implements Serializable{
 	private static final long serialVersionUID = 95847483;
-//   Lista base = Lista();
+	
 	String name;
 	int id;
+// 	Base rfBase = new Base(); //base with fiszkas to repeat
   
 	public String toString(){
 		return name;
@@ -12,11 +13,13 @@ class User implements Serializable{
 	public void readObject(ObjectInputStream stream) throws ClassNotFoundException, IOException{
 		name = (String) stream.readObject();
 		id = stream.readInt();
+// 		rfBase = (Base) stream.readObject();
 		//potem base
 	}
 	public void writeObject(ObjectOutputStream stream) throws IOException{
 		stream.writeObject(name);
 		stream.writeObject(id);
+// 		stream.writeObject(rfBase);
 		//potem base
 	}
 	User(String n, int nextid){
