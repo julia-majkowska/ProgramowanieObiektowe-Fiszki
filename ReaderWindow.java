@@ -1,19 +1,19 @@
 import javax.swing.*;
-import javax.swing.event.MenuKeyListener;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.MenuKeyEvent;
 import javax.swing.event. *;
 
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 public class ReaderWindow extends JFileChooser implements ActionListener
 {
     OknoWyboru obiekt;
     public ReaderWindow (OknoWyboru x1)
     {
         obiekt = x1;
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fiszki", "fiszka");
+        this.setFileFilter(filter);
     }
 
     void read()

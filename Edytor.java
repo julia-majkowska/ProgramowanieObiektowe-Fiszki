@@ -1,19 +1,21 @@
 import javax.swing.*;
-import javax.swing.event.MenuKeyListener;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.MenuKeyEvent;
 import javax.swing.event. *;
 
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.lang.Object;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 class SelFileWindow extends JFileChooser implements ActionListener
 {
     SelectedPicture p;
     SelFileWindow(SelectedPicture sp){ 
         p = sp; 
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
+        this.setFileFilter(filter);
     }
     public void actionPerformed(ActionEvent e)
     {
@@ -31,7 +33,6 @@ class SelFileWindow extends JFileChooser implements ActionListener
 
 interface Selected
 {
-    public void clear_cont();
     public abstract void build();
 }
 
@@ -53,35 +54,27 @@ class SelectedPicture
     }
     public SelectedPicture(JPanel kont, Fiszka a, int n)
     {
-        mojplik = ((Picture) a.getith(n)).get();
-        kontener_out = kont;
-        kontener_out.add(this);
         akt_fiszka = a;
         numer_pola = n;
+        mojplik = ((Picture) a.getith(n)).get();
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        kontener_out = kont;
+        kontener_out.add(this);
         wybierz_plik = new JButton("Wybierz plik");
         wybierz_plik.addActionListener(new SelFileWindow(this));
         JPanel kontener_na_obrazek = new JPanel();
         this.add(kontener_na_obrazek);
         obraz = new ShowPicture(kontener_na_obrazek, this);
         obraz.build();
-        this.updateUI();
+        this.updateUI();       
     }
 
-    public void clear_cont()
-    {
-        this.removeAll(); 
-        this.revalidate();
-        this.repaint();
-        this.updateUI();
-    }   
     public void build(){
         this.add(wybierz_plik);
         this.updateUI();
     }
     public void actionPerformed(ActionEvent e){
-        clear_cont();
         akt_fiszka.setith(new Picture(this.mojplik), numer_pola);
-        //clear_cont();
         build();
     }
 
@@ -110,14 +103,9 @@ implements ActionListener
             Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
             icon = new ImageIcon(newimg);  // transform it back
             label.setIcon(icon);
-        // label.setMinimumSize(new Dimension(width, height));
-        // label.setPreferedSize(new Dimension(width, height));
             label.setMaximumSize(new Dimension(20, 20));
-            kontener.revalidate();
-            kontener.repaint();
-            kontener.updateUI();
             wyborPliku.updateUI();
-            kontener.setVisible(true);
+
         } catch (Exception er) {
             System.out.println("źle z plikiem");
             //Zrob okienko bledu
@@ -141,17 +129,6 @@ implements ActionListener, Selected,  DocumentListener
     String current_text;
     Fiszka akt_fiszka;
     int numer_pola;
-    public SelectedText(JPanel kont, String def, Fiszka a, int n) 
-    {
-        kontener = kont;
-        default_text = def;
-        akt_fiszka = a;
-        numer_pola = n;
-        this.getDocument().addDocumentListener(this);
-        this.setText(def);
-        
-    }
-
     public SelectedText(JPanel kont, Fiszka a, int n) 
     {
         kontener = kont;
@@ -162,24 +139,13 @@ implements ActionListener, Selected,  DocumentListener
         this.setText(default_text);
         
     }
-    public void clear_cont()
-    {
-        kontener.removeAll(); 
-        kontener.revalidate();
-        kontener.repaint();
-        kontener.updateUI();
-    }
-
     public void build()
     {
         kontener.add(this);
-        kontener.revalidate();
-        kontener.repaint();
         kontener.updateUI();
-        kontener.setVisible(true);
+
     }
     public void actionPerformed(ActionEvent e){
-        clear_cont();
         build();
     }
 
@@ -188,9 +154,6 @@ implements ActionListener, Selected,  DocumentListener
         akt_fiszka.setith(new Text(this.getText()), numer_pola);
     }
     public void insertUpdate(DocumentEvent e){
-        //String s = this.getText();
-        //System.out.println(s);
-        //if(akt_fiszka == null) System.out.println(numer_pola);
         akt_fiszka.setith(new Text(this.getText()), numer_pola);
     }
 
@@ -215,6 +178,7 @@ class UpLay implements ActionListener
     {   
         lista.get(numer).number_of_fields = -1; // fiszka usunieta
         ((GridLayout) mr.getLayout()).setRows(((GridLayout) mr.getLayout()).getRows() -1);
+        mr.updateUI();
     }
 
 }
@@ -238,6 +202,7 @@ class InputVerse implements ActionListener
     }
     public void fillInFiszka()
     {
+        akt_fiszka.ensure_capacity(danePol.size() -1);
         for (int i = 0; i< danePol.size(); i++)
         {
             if(danePol.get(i).typ.equals("OBRAZEK") ) akt_fiszka.setDefault(new Picture("sad-smiley.png"), i);
@@ -260,14 +225,12 @@ class InputVerse implements ActionListener
             s1.build();
             s[i] = ((Component) s1);
          }
-         kontener.revalidate();
-         kontener.repaint();
-         kontener.updateUI();
          usun = new JButton("Usuń"); 
          kontener.add(usun);
          usun.addActionListener(new KillComponents( s, kontener));
          usun.addActionListener(new KillComponents( new Component[]{usun}, kontener));
          usun.addActionListener(new UpLay(kontener, lista, akt_fiszka, numer));
+         kontener.updateUI();
      }
 
     public void actionPerformed(ActionEvent e)
@@ -339,7 +302,6 @@ implements ActionListener
         JPanel kontener = new JPanel();
         this.add(kontener);//, BorderLayout.CENTER);
         kontener.setLayout(new GridLayout(1, danePol.size()+1));
-        kontener.updateUI();
         JPanel kontener2 = new JPanel();
         this.add(kontener2);//, BorderLayout.PAGE_END);
 
@@ -360,19 +322,12 @@ implements ActionListener
 
         for (FieldData var : danePol) {
             kontener.add(new JLabel(var.nazwa));
-            kontener.updateUI();
         }
-        this.revalidate();
-        this.repaint();
-        this.updateUI();
         JButton nowa_fiszka = new JButton("Nowa fiszka");
         kontener.add(nowa_fiszka);
-        System.out.println("Wypisuje liste" + lista.size());
-        for (int i = 0; i< lista.size(); i++)
-        {
-            //System.out.println("Wypisuje liste");
-            new OldVerse(kontener, danePol, lista, i).build();
-        }
+        //System.out.println("Wypisuje liste" + lista.size());
+        for (int i = 0; i< lista.size(); i++) new OldVerse(kontener, danePol, lista, i).build();
+        
         nowa_fiszka.addActionListener(new InputVerse(kontener, danePol, lista));
         this.updateUI();
 

@@ -8,13 +8,16 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class SaverWindow extends JFileChooser implements ActionListener
 {
     Edytor obiekt;
 
     public SaverWindow(Edytor s){
-        obiekt = s;        
+        obiekt = s;   
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fiszki", "fiszka");
+        this.setFileFilter(filter);     
     }
 
     void save()

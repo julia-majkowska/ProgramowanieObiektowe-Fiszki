@@ -14,13 +14,11 @@ class TypeSelection extends JPanel implements ActionListener
     JPanel c;
     JPanel kontener_out;
     Vector<FieldData> danePol;
-    //JPanel kontener;
     public TypeSelection(JPanel kont, Vector<FieldData> dan, JPanel cp) 
     {
         kontener_out = kont;
         danePol = dan;
         c = cp;
-        //kontener = new JPanel();
     }
 
     public void init(){
@@ -44,36 +42,19 @@ class TypeSelection extends JPanel implements ActionListener
         JPanel menucont = new JPanel();
         menucont.setVisible(true);
         this.add(menucont);
-        JMenuBar menuBar;
-        JMenu menu;
-        JMenuItem poleTekstoweItem, poleObrazkoweItem;
 
-        //Create the menu bar.
-        menuBar = new JMenuBar();
-
-        //Build the first menu.
-        menu = new JMenu("Wybierz typ pola");
-        menu.setMnemonic(KeyEvent.VK_A);
-        menu.getAccessibleContext().setAccessibleDescription("Wybór typu pola w fiszce");
-        menuBar.add(menu);
-
-        JPanel kontenerNaWybor = new JPanel();
-        this.add(kontenerNaWybor);
-        //a group of JMenuItems
-        poleTekstoweItem = new JMenuItem("Pole tekstowe", KeyEvent.VK_T);
-        poleTekstoweItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
-        poleTekstoweItem.getAccessibleContext().setAccessibleDescription("Wybiera pole na tekstowe");
-        poleTekstoweItem.addActionListener(new EqualsAL (f, "TEKST", null));//new SelectedText(kontenerNaWybor, "Wpisz hasło"));
-        menu.add(poleTekstoweItem);
-
-        poleObrazkoweItem = new JMenuItem("Obraz", KeyEvent.VK_T);
-        poleObrazkoweItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
-        poleObrazkoweItem.getAccessibleContext().setAccessibleDescription("Wybiera pole na obraz");
-        poleObrazkoweItem.addActionListener(new EqualsAL(f, "OBRAZEK",  null));//new SelectedPicture(kontenerNaWybor));
-        menu.add(poleObrazkoweItem);
-        menucont.add(menuBar);
+        String [] hasla = {"TEKST", "OBRAZEK"};
+        JComboBox menu = new JComboBox(hasla);
+        menu.setSelectedIndex(0);
+        menu.addActionListener(new ActionListener(){
+                                    public void actionPerformed(ActionEvent e)
+                                    {
+                                        JComboBox cb = (JComboBox)e.getSource();
+                                        f.typ = (String)cb.getSelectedItem();
+                                    }
+                                });
+        menucont.add(menu);
         this.updateUI();
-        c.revalidate();
 
     }
     public void actionPerformed(ActionEvent e){
@@ -110,7 +91,6 @@ class ImportedSelection extends DefaultSelection
         nazwa = n;
         typ = t;
         numer =i;
-        //init();
     }
     public void init()
     {
@@ -146,11 +126,9 @@ implements ActionListener
     public void wyczysc_okno(){
         okno.getContentPane().removeAll();
         okno.getContentPane().repaint();
-
         okno.setTitle("Wpisz pola");
         okno.setSize(600, 400);
-        okno.setVisible(true);
-        
+        okno.setVisible(true); 
     }
 
     void build(){
@@ -162,8 +140,7 @@ implements ActionListener
         JButton guzik_dalej;
 
         wyczysc_okno();
-        JPanel c = new JPanel();
-        this.add(c);
+        JPanel c =this;
         c.setLayout(new BoxLayout(c, BoxLayout.PAGE_AXIS));
 
         JScrollPane scrPane = new JScrollPane(c);
@@ -176,25 +153,19 @@ implements ActionListener
 
         guzik_dalej = new JButton("Dalej");
         kontener2.add(guzik_dalej);
-        kontener2.updateUI();
-        c.updateUI();
-        this.updateUI();
 
         kontener = new JPanel();
         kontener.setLayout(new BoxLayout(kontener, BoxLayout.PAGE_AXIS));
         c.add(kontener);
         if(danePol.isEmpty())
         {
-            System.out.println("BRUUUUUUM");
             new DefaultSelection(kontener, danePol,c, "Hasło").init();
             new DefaultSelection(kontener, danePol,c, "Znaczenie").init();
             new DefaultSelection(kontener, danePol,c, "Kategoria").init();
-            c.revalidate();
         }
         else for(int i = 0; i< danePol.size(); i++){
                 FieldData f = danePol.get(i);
                 new ImportedSelection(kontener, danePol,c, f.nazwa, f.typ, i).init();
-                c.revalidate();
              }
 
         guzik_dodawania.addActionListener(new TypeSelection(kontener, danePol, c));        
