@@ -6,4 +6,11 @@ public class Text extends Field
     {
         tresc = s;
     }
+
+    public String get() {return tresc;}
+
+    public String toString (){
+        return "Tekst "+ tresc;
+    }
+
 }
