@@ -8,28 +8,28 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-
-public class SaverWindow extends JFileChooser implements ActionListener
+public class ReaderWindow extends JFileChooser implements ActionListener
 {
-    Edytor obiekt;
-
-    public SaverWindow(Edytor s){
-        obiekt = s;        
+    OknoWyboru obiekt;
+    public ReaderWindow (OknoWyboru x1)
+    {
+        obiekt = x1;
     }
 
-    void save()
+    void read()
     {
         File plik= this. getSelectedFile();
         //plik.createNewFile();
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
+        NBase l = new NBase();
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
         try {
-            fos = new FileOutputStream(plik);
-            oos = new ObjectOutputStream(fos);
-            obiekt.pomoc.setBase(obiekt.lista);
-            oos.writeObject(obiekt.pomoc); //zapisuje base
-            fos.close();
-            oos.close();
+            fis = new FileInputStream(plik);
+            ois = new ObjectInputStream(fis);
+            l = (NBase) ois.readObject();
+            obiekt.baza.setAll(l);
+            fis.close();
+            ois.close();
         }
         catch(Exception e){
             System.err.println("Caught IOException: " + e.getMessage());
@@ -37,15 +37,20 @@ public class SaverWindow extends JFileChooser implements ActionListener
         
     }
 
-    public void actionPerformed(ActionEvent e)
+    public void open()
     {
         obiekt.add(this);
-        int result = this.showSaveDialog(obiekt);
+        int result = this.showOpenDialog(obiekt);
             if (result == JFileChooser.APPROVE_OPTION) {
                 System.out.println("Save was selected");
-                save();
+                read();
             } else if (result == JFileChooser.CANCEL_OPTION) {
                 System.out.println("Cancel was selected");
         }
     }
+    public void actionPerformed(ActionEvent e)
+    {
+        open();
+    }
+    
 }

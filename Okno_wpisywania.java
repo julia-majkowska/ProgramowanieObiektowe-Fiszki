@@ -89,7 +89,7 @@ class DefaultSelection extends TypeSelection
     {
         super(kont, dan, cp);        
         nazwa = n;
-        init();
+        //this.init();
     }
 
     public void add_text(FieldData f)
@@ -110,14 +110,13 @@ class ImportedSelection extends DefaultSelection
         nazwa = n;
         typ = t;
         numer =i;
-        init();
+        //init();
     }
     public void init()
     {
         kontener_out.add(this);
         kontener_out.updateUI();
         FieldData f = danePol.get(numer);
-        //danePol.add(f);
         add_text(f);
         add_menu(f);
     }
@@ -130,43 +129,45 @@ class ImportedSelection extends DefaultSelection
     }
 }
 public class Okno_wpisywania
-extends JFrame
+extends JPanel
+implements ActionListener
 {
     Vector<FieldData> danePol;
-    Base lista;
-
-    public Okno_wpisywania(Vector<FieldData> d,Base l )
+    NBase lista;
+    JFrame okno;
+    public Okno_wpisywania(JFrame o, NBase l)
     {
-        danePol =d;
         lista = l;
+        okno = o;
+        okno.add(this);
+        danePol = l.v;
     }
-                                                                                                                            
-    public Okno_wpisywania()
-    {
-        danePol = new Vector<FieldData>();
-        build();
-        lista = new Fiszka[0];
-       
+
+    public void wyczysc_okno(){
+        okno.getContentPane().removeAll();
+        okno.getContentPane().repaint();
+
+        okno.setTitle("Wpisz pola");
+        okno.setSize(600, 400);
+        okno.setVisible(true);
+        
     }
 
     void build(){
+        System.out.println("WYpisuje liste FieldData");
+        for(FieldData x : danePol) System.out.println(x.typ +" "+ x.nazwa);
         JPanel kontener; 
         JPanel kontener2;
         JButton guzik_dodawania; 
         JButton guzik_dalej;
 
-        this.setTitle("Tworzenie listy"); //= new JFrame("Tworzenie listy");
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 400);
-
+        wyczysc_okno();
         JPanel c = new JPanel();
         this.add(c);
         c.setLayout(new BoxLayout(c, BoxLayout.PAGE_AXIS));
 
         JScrollPane scrPane = new JScrollPane(c);
-        scrPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        getContentPane().add(scrPane);
+        okno.getContentPane().add(scrPane);
 
         kontener2 = new JPanel();
         c.add(kontener2);
@@ -177,27 +178,34 @@ extends JFrame
         kontener2.add(guzik_dalej);
         kontener2.updateUI();
         c.updateUI();
+        this.updateUI();
 
         kontener = new JPanel();
         kontener.setLayout(new BoxLayout(kontener, BoxLayout.PAGE_AXIS));
         c.add(kontener);
         if(danePol.isEmpty())
         {
-            JPanel haslo = new DefaultSelection(kontener, danePol,c, "Hasło");
-            JPanel znaczenie = new DefaultSelection(kontener, danePol,c, "Znaczenie");
-            JPanel kategoria = new DefaultSelection(kontener, danePol,c, "Kategoria");
+            System.out.println("BRUUUUUUM");
+            new DefaultSelection(kontener, danePol,c, "Hasło").init();
+            new DefaultSelection(kontener, danePol,c, "Znaczenie").init();
+            new DefaultSelection(kontener, danePol,c, "Kategoria").init();
             c.revalidate();
         }
         else for(int i = 0; i< danePol.size(); i++){
                 FieldData f = danePol.get(i);
-                JPanel a = new ImportedSelection(kontener, danePol,c, f.nazwa, f.typ, i);
+                new ImportedSelection(kontener, danePol,c, f.nazwa, f.typ, i).init();
                 c.revalidate();
              }
 
         guzik_dodawania.addActionListener(new TypeSelection(kontener, danePol, c));        
-        guzik_dalej.addActionListener(new Edytor(danePol, this));
+        guzik_dalej.addActionListener(new Edytor(okno, lista));
+        this.updateUI();
        
     }
-   
+
+    public void actionPerformed(ActionEvent e)  
+    {
+        build();
+    } 
 }
 
