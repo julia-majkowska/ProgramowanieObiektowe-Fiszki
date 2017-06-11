@@ -19,7 +19,7 @@ public class OknoWyboru extends JFrame implements ActionListener
         baza = l;
         this.setTitle("List Creator"); //= new JFrame("Tworzenie listy");
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 400);
         this.add(c);
         c.setLayout(new BoxLayout(c, BoxLayout.PAGE_AXIS));
