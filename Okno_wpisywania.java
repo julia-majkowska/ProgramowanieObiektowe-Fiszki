@@ -32,7 +32,7 @@ class TypeSelection extends JPanel implements ActionListener
     }
     public void add_text(FieldData f)
     {
-        JTextField nazwa = new JTextField("Wpisz nazwę pola (nie treść tylko typ hasła)");
+        JTextField nazwa = new JTextField("Input a name for this field");
         nazwa.getDocument().addDocumentListener(new EqualsAL(f, null, nazwa));
         this.add(nazwa);
     }
@@ -125,8 +125,11 @@ implements ActionListener
 
     public void wyczysc_okno(){
         okno.getContentPane().removeAll();
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        JScrollPane scrPane = new JScrollPane(this);
+        okno.getContentPane().add(scrPane);
         okno.getContentPane().repaint();
-        okno.setTitle("Wpisz pola");
+        okno.setTitle("Input fields");
         okno.setSize(600, 400);
         okno.setVisible(true); 
     }
@@ -141,17 +144,12 @@ implements ActionListener
 
         wyczysc_okno();
         JPanel c =this;
-        c.setLayout(new BoxLayout(c, BoxLayout.PAGE_AXIS));
-
-        JScrollPane scrPane = new JScrollPane(c);
-        okno.getContentPane().add(scrPane);
-
         kontener2 = new JPanel();
         c.add(kontener2);
-        guzik_dodawania = new JButton("Dodaj pole");
+        guzik_dodawania = new JButton("Add field");
         kontener2.add(guzik_dodawania);
 
-        guzik_dalej = new JButton("Dalej");
+        guzik_dalej = new JButton("Continue");
         kontener2.add(guzik_dalej);
 
         kontener = new JPanel();

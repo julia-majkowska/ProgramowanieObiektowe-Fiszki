@@ -113,7 +113,6 @@ implements ActionListener
     }
     public void actionPerformed(ActionEvent e)
     {
-        System.out.println("działam");
         kontener.removeAll();
         build();
     }
@@ -137,7 +136,6 @@ implements ActionListener, Selected,  DocumentListener
         numer_pola = n;
         this.getDocument().addDocumentListener(this);
         this.setText(default_text);
-        
     }
     public void build()
     {
@@ -206,7 +204,7 @@ class InputVerse implements ActionListener
         for (int i = 0; i< danePol.size(); i++)
         {
             if(danePol.get(i).typ.equals("OBRAZEK") ) akt_fiszka.setDefault(new Picture("sad-smiley.png"), i);
-            else akt_fiszka.setDefault(new Text("Wpisz tresc fiszki"), i);
+            else akt_fiszka.setDefault(new Text("Input contents"), i);
         }
     }
 
@@ -225,7 +223,7 @@ class InputVerse implements ActionListener
             s1.build();
             s[i] = ((Component) s1);
          }
-         usun = new JButton("Usuń"); 
+         usun = new JButton("Delete"); 
          kontener.add(usun);
          usun.addActionListener(new KillComponents( s, kontener));
          usun.addActionListener(new KillComponents( new Component[]{usun}, kontener));
@@ -277,12 +275,14 @@ implements ActionListener
 
     public void wyczysc_okno(){
         okno.getContentPane().removeAll();
+        okno.add(this);
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        JScrollPane scrPane = new JScrollPane(this);
+        okno.getContentPane().add(scrPane);
         okno.getContentPane().repaint();
-
-        okno.setTitle("Wpisz pola");
+        okno.setTitle("Input fields");
         okno.setSize(600, 400);
-        okno.setVisible(true);
-        
+        okno.setVisible(true); 
     }
 
     public void init()
@@ -292,43 +292,40 @@ implements ActionListener
             System.out.println(var.nazwa+" "+ var.typ);
         }
 
-        //this.setLayout(new BorderLayout(3, 1));
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        okno.add(this);
-        JScrollPane scrPane = new JScrollPane(this);
-        okno.getContentPane().add(scrPane);
-
-        
+        //this.setLayout(new BorderLayout(3, 1));        
         JPanel kontener = new JPanel();
         this.add(kontener);//, BorderLayout.CENTER);
         kontener.setLayout(new GridLayout(1, danePol.size()+1));
         JPanel kontener2 = new JPanel();
         this.add(kontener2);//, BorderLayout.PAGE_END);
 
-        JButton zapisz = new JButton("Zapisz");
+        JButton zapisz = new JButton("Save");
         kontener2.add(zapisz);
         zapisz.addActionListener(new Writer(pomoc, lista));
         zapisz.addActionListener(new SaverWindow(this));
 
-        JButton zakoncz = new JButton("Zakoncz");
+        JButton zakoncz = new JButton("Learn");
         kontener2.add(zakoncz);
         //zakoncz.addActionListener(new Writer(pomoc, lista));
         //zakoncz.addActionListener(new SaverWindow(this));
         zakoncz.addActionListener(new ActionListener() {
                                 public void actionPerformed(ActionEvent e)
                                 {
+                                  pomoc.setBase(lista);
                                   System.exit(0);
                                 }});
 
         for (FieldData var : danePol) {
             kontener.add(new JLabel(var.nazwa));
         }
-        JButton nowa_fiszka = new JButton("Nowa fiszka");
+        JButton nowa_fiszka = new JButton("New cue card");
         kontener.add(nowa_fiszka);
         //System.out.println("Wypisuje liste" + lista.size());
         for (int i = 0; i< lista.size(); i++) new OldVerse(kontener, danePol, lista, i).build();
         
         nowa_fiszka.addActionListener(new InputVerse(kontener, danePol, lista));
+        this.revalidate();
+        this.repaint();
         this.updateUI();
 
     }
