@@ -11,7 +11,7 @@ import java.io.*;
 class Main
 {
     public static void main(String[] args) {
-        Okno_wpisywania x = new Okno_wpisywania(new JFrame(), new NBase());
+        Okno_wpisywania x = new Okno_wpisywania( new NBase());
         OknoWyboru y= new OknoWyboru(new NBase());
         OknoModyfikacji z = new OknoModyfikacji(new NBase());
     }

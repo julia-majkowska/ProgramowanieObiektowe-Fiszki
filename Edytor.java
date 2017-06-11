@@ -313,7 +313,8 @@ implements ActionListener
                                 public void actionPerformed(ActionEvent e)
                                 {
                                   pomoc.setBase(lista);
-                                  System.exit(0);
+                                  okno.dispose();
+                                  //System.exit(0);
                                 }});
 
         for (FieldData var : danePol) {

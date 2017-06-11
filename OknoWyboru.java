@@ -49,10 +49,12 @@ public class OknoWyboru extends JFrame implements ActionListener
          new ReaderWindow(this).open();
          c.add(dalej);
          refreshCont(c);
+         JFrame c = this;
          dalej.addActionListener(new ActionListener() {
                                 public void actionPerformed(ActionEvent e)
                                 {
-                                  System.exit(0);
+                                  //System.exit(0);
+                                  c.dispose();
                                 }});
         
      }
