@@ -115,6 +115,15 @@ implements ActionListener
     Vector<FieldData> danePol;
     NBase lista;
     JFrame okno;
+
+    public Okno_wpisywania(NBase l)
+    {
+        lista = l;
+        okno = new JFrame();
+        okno.add(this);
+        danePol = l.v;
+        build();
+    }
     public Okno_wpisywania(JFrame o, NBase l)
     {
         lista = l;
