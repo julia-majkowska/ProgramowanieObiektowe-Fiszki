@@ -23,6 +23,9 @@ public class SaverWindow extends JFileChooser implements ActionListener
     void save()
     {
         File plik= this. getSelectedFile();
+        if(!this.getSelectedFile().getAbsolutePath().endsWith(".fiszka")){
+            plik = new File(this.getSelectedFile() + ".fiszka");
+        }
         //plik.createNewFile();
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
