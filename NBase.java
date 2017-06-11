@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-public class NBase{
-	String name = "";
-	int size = 0, topics_size = 1, nextid = 0;
-	
-	NewFiszka[] list = new NewFiszka[10000]; //ew. size exc
-	String[] topics = new String[100]; //znowu size exc
-	Vector<FieldData> v;
-=======
 import java.util.*;
 import java.io.*;
 public class NBase implements Serializable{
@@ -16,21 +7,11 @@ public class NBase implements Serializable{
 	public NewFiszka[] list = new NewFiszka[10000]; //ew. size exc
 	public String[] topics = new String[100]; //znowu size exc
 	public Vector<FieldData> v = new Vector<FieldData>();
->>>>>>> julia
 	
 	NBase(){
 		topics[0] = "wszystkie";
 		//wczytaj z pliku
 	}
-<<<<<<< HEAD
-	setBase(LinkedList<Fiszka> l) {
-		list = l.toArray(list);
-	}
-	setBase(String n, LinkedList<Fiszka> l) {
-		name = n;
-		list = l.toArray(list);
-	}
-=======
 	public void setBase(LinkedList<Fiszka> l) {
                 size = l.size();
 		list = l.toArray(list);
@@ -68,6 +49,4 @@ public class NBase implements Serializable{
             topics = x.topics;
             v = x.v;
 	}
-	
->>>>>>> julia
 }
