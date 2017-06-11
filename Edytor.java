@@ -281,6 +281,7 @@ implements ActionListener
         okno.getContentPane().add(scrPane);
         okno.getContentPane().repaint();
         okno.setTitle("Input fields");
+        // /okno.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         okno.setSize(600, 400);
         okno.setVisible(true); 
     }
