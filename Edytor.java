@@ -22,11 +22,11 @@ class SelFileWindow extends JFileChooser implements ActionListener
         p.add(this);
         int result = this.showOpenDialog(p);
         if (result == JFileChooser.APPROVE_OPTION) {
-            System.out.println("Open was selected");
+            System.err.println("Open was selected");
             p.set_file(this.getSelectedFile());
             p.obraz.build();
         } else if (result == JFileChooser.CANCEL_OPTION) {
-            System.out.println("Cancel was selected");
+            System.err.println("Cancel was selected");
         }
     }
 }
@@ -97,7 +97,7 @@ implements ActionListener
          String plik;
         try {
             plik= wyborPliku.mojplik.getCanonicalPath();
-            System.out.println(plik);
+            System.err.println(plik);
             ImageIcon icon = new ImageIcon(plik);
             Image image = icon.getImage(); // transform it 
             Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
@@ -107,7 +107,7 @@ implements ActionListener
             wyborPliku.updateUI();
 
         } catch (Exception er) {
-            System.out.println("źle z plikiem");
+            System.err.println("źle z plikiem");
             //Zrob okienko bledu
         } 
     }
@@ -211,7 +211,7 @@ class InputVerse implements ActionListener
     public void build()
     {
       fillInFiszka();
-      if(akt_fiszka == null) System.out.println("Jest juz zle");
+      if(akt_fiszka == null) System.err.println("Jest juz zle");
         kontener.setLayout(new GridLayout(( (GridLayout) kontener.getLayout()).getRows()+1, danePol.size()));
         Component[] s = new Component [danePol.size()];
         for(int i = 0 ; i< danePol.size(); i++)
@@ -265,6 +265,14 @@ implements ActionListener
     Vector<FieldData> danePol;
     JFrame okno;
     NBase pomoc;
+	public Edytor(NBase l)
+    {
+		pomoc = l;
+        danePol = l.v;
+        lista = l.getList();
+        okno = new JFrame();
+    }
+
     public Edytor(JFrame o, NBase l)
     {
         pomoc = l;
@@ -290,7 +298,7 @@ implements ActionListener
     {
         wyczysc_okno();
         for (FieldData var : danePol) {
-            System.out.println(var.nazwa+" "+ var.typ);
+            System.err.println(var.nazwa+" "+ var.typ);
         }
 
         //this.setLayout(new BorderLayout(3, 1));        
@@ -322,7 +330,7 @@ implements ActionListener
         }
         JButton nowa_fiszka = new JButton("New cue card");
         kontener.add(nowa_fiszka);
-        //System.out.println("Wypisuje liste" + lista.size());
+        //System.err.println("Wypisuje liste" + lista.size());
         for (int i = 0; i< lista.size(); i++) new OldVerse(kontener, danePol, lista, i).build();
         
         nowa_fiszka.addActionListener(new InputVerse(kontener, danePol, lista));

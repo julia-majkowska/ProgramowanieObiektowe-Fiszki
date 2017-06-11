@@ -37,7 +37,7 @@ class TypeSelection extends JPanel implements ActionListener
         this.add(nazwa);
     }
 
-    public void add_menu(FieldData f)
+    public void add_menu(final FieldData f)
     {
         JPanel menucont = new JPanel();
         menucont.setVisible(true);
@@ -186,4 +186,3 @@ implements ActionListener
         build();
     } 
 }
-
