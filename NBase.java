@@ -6,6 +6,7 @@ public class NBase implements Serializable{
 	
 	public NewFiszka[] list = new NewFiszka[10000]; //ew. size exc
 	public String[] topics = new String[100]; //znowu size exc
+	public HashMap<String, Vector<Fiszka> > topic_sort = new HashMap<String, Vector<Fiszka> >();
 	public Vector<FieldData> v = new Vector<FieldData>();
 	
 	NBase(){
@@ -15,6 +16,15 @@ public class NBase implements Serializable{
 	public void setBase(LinkedList<Fiszka> l) {
                 size = l.size();
 		list = l.toArray(list);
+		topic_sort.clear();
+ 		for(int i = 0; i<l.size(); i++)
+		{ 
+                    Vector<Fiszka> vf =new Vector<Fiszka>();
+                    if(topic_sort.containsKey(list[i].kategoria().get())==true) vf = topic_sort.get(list[i].kategoria().get());
+                    else vf = new Vector<Fiszka>();
+                    vf.add(list[i]);
+                    topic_sort.put(list[i].kategoria().get(), vf);
+		}
 	}
 	public void setBase(String n, LinkedList<Fiszka> l) {
 		name = n;

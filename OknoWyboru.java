@@ -13,6 +13,8 @@ public class OknoWyboru extends JFrame implements ActionListener
 {
      NBase baza;
      JPanel c = new JPanel();
+     JPanel c1 = new JPanel();
+     JPanel c2 = new JPanel();
      //JButton modyfikuj = new JButton("Modify");
      JButton dalej= new JButton("Learn");
      public OknoWyboru(NBase l){
@@ -22,6 +24,8 @@ public class OknoWyboru extends JFrame implements ActionListener
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 400);
         this.add(c);
+        c.add(c1);
+        c.add(c2);
         c.setLayout(new BoxLayout(c, BoxLayout.PAGE_AXIS));
         refreshCont(c);
         buttons();
@@ -36,7 +40,7 @@ public class OknoWyboru extends JFrame implements ActionListener
 
      public void buttons(){
          JButton wczytaj_liste = new JButton("Read list from file");
-         c.add(wczytaj_liste);
+         c1.add(wczytaj_liste);
          refreshCont(c);
          //wczytaj_liste.addActionListener(new ReaderWindow(this)); //zapisuje juz tutaj
          wczytaj_liste.addActionListener(this);
@@ -47,7 +51,7 @@ public class OknoWyboru extends JFrame implements ActionListener
      public void actionPerformed(ActionEvent e)
      {
          new ReaderWindow(this).open();
-         c.add(dalej);
+         c2.add(dalej);
          refreshCont(c);
          final JFrame c = this;
          dalej.addActionListener(new ActionListener() {
