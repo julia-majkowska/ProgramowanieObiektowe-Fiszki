@@ -30,7 +30,7 @@ public class OknoModyfikacji extends OknoWyboru implements ActionListener
      {
          new ReaderWindow(this).open();
          c2.add(modyfikuj);
-         refreshCont(c);
+         refreshCont(c2);
          modyfikuj.addActionListener(new Okno_wpisywania(this, baza));
      }
 
