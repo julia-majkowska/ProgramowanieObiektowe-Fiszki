@@ -19,7 +19,7 @@ public class OknoModyfikacji extends OknoWyboru implements ActionListener
      }
      public void buttons(){
          JButton wczytaj_liste = new JButton("Read list from file");
-         c.add(wczytaj_liste);
+         c1.add(wczytaj_liste);
          refreshCont(c);
          //wczytaj_liste.addActionListener(new ReaderWindow(this)); //zapisuje juz tutaj
          wczytaj_liste.addActionListener(this);
@@ -29,8 +29,8 @@ public class OknoModyfikacji extends OknoWyboru implements ActionListener
      public void actionPerformed(ActionEvent e)
      {
          new ReaderWindow(this).open();
-         c.add(modyfikuj);
-         refreshCont(c);
+         c2.add(modyfikuj);
+         refreshCont(c2);
          modyfikuj.addActionListener(new Okno_wpisywania(this, baza));
      }
 

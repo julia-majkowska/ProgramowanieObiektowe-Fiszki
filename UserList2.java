@@ -1,31 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
-class User implements Serializable{
-	private static final long serialVersionUID = 95847483;
-	String login;
-	int id;
-// 	Base rfBase = new Base(); //base with fiszkas to repeat
-  
-	public String toString(){
-		return login;
-	}
-	public void readObject(ObjectInputStream stream) throws ClassNotFoundException, IOException{
-		login = (String) stream.readObject();
-		id = stream.readInt();
-// 		rfBase = (Base) stream.readObject();
-	}
-	public void writeObject(ObjectOutputStream stream) throws IOException{
-		stream.writeObject(login);
-		stream.writeObject(id);
-// 		stream.writeObject(rfBase);
-		//potem base
-	}
-	User(String l, int i){
-		login = l;
-		id = i;
-	}
-}
-public class UserList2 implements Serializable{
+public class UserList2{
 	private static final long serialVersionUID = 95847483;
 
 	int size = 0, nextid = 0;

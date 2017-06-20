@@ -165,10 +165,12 @@ implements ActionListener
         kontener.setLayout(new BoxLayout(kontener, BoxLayout.PAGE_AXIS));
         c.add(kontener);
         if(danePol.isEmpty())
-        {
+        {   
+            danePol.add(new FieldData("TEKST", "Kategoria"));
+            new ImportedSelection(kontener, danePol,c,"Kategoria", "TEKST",0 ).init();
             new DefaultSelection(kontener, danePol,c, "Hasło").init();
             new DefaultSelection(kontener, danePol,c, "Znaczenie").init();
-            new DefaultSelection(kontener, danePol,c, "Kategoria").init();
+            
         }
         else for(int i = 0; i< danePol.size(); i++){
                 FieldData f = danePol.get(i);

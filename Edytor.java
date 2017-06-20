@@ -60,7 +60,7 @@ class SelectedPicture
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         kontener_out = kont;
         kontener_out.add(this);
-        wybierz_plik = new JButton("Wybierz plik");
+        wybierz_plik = new JButton("Select file");
         wybierz_plik.addActionListener(new SelFileWindow(this));
         JPanel kontener_na_obrazek = new JPanel();
         this.add(kontener_na_obrazek);
