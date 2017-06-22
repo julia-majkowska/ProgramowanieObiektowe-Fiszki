@@ -19,6 +19,7 @@ import java.util.Map;
 public class Frame extends JFrame implements ActionListener {
     public JPanel pane;
     public User user;
+    private Learning learn;
 
     public Frame(User usr) throws HeadlessException {
         setSize(650, 500);
@@ -43,12 +44,13 @@ public class Frame extends JFrame implements ActionListener {
         try {
             if (source == ((UserMenu) pane).btLearn) {
                 remove(pane);
-                String[] lista = {"maciek", "dragula", "jest", "ok"};
-                Map<String, Integer> mapa = new HashMap<String, Integer>();
-                mapa.put("maciek", 8);
-                mapa.put("dragula", 20);
-                mapa.put("jest", 50);
-                mapa.put("ok", 3);
+                System.out.println("blabla");
+                learn = new Learning(user);
+                System.out.println("blabla2");
+                Map<String, Integer> mapa = learn.topicsSize;
+                System.out.println(learn.topics.size());
+                String[] lista = learn.topics.toArray(new String[learn.topics.size()] );
+                System.out.println("blabla3");
                 pane = new WhatToLearn(this, lista, mapa); // od Agi potrzebuje liste kategorii i mape
                 add(pane);
                 revalidate();
@@ -61,6 +63,8 @@ public class Frame extends JFrame implements ActionListener {
                 remove(pane);
                 // funckja podające rodzaj ćwiczenia, pytanie, odpowiedz
                 // jesli jest kolejne cwiczenie to je odpal jak nie to koniec
+                learn.selectCards((String)((WhatToLearn) pane).ltCategories.getSelectedItem(), ((WhatToLearn) pane).slidCardsTL.getValue());
+                System.out.println("here");
                 pane = new Exercise1(this, "To jest jakies pytanie?");
                 add(pane);
                 revalidate();
@@ -136,6 +140,13 @@ public class Frame extends JFrame implements ActionListener {
         try {
         	  if (source == ((UserMenu) pane).btAdd) {
         	  	 user.modifyBase();
+        	  }
+        } catch (Exception e) {
+        
+        }
+        try {
+        	  if (source == ((Exercise4) pane).btContinue) {
+        	  			
         	  }
         } catch (Exception e) {
         

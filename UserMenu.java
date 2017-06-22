@@ -15,7 +15,7 @@ public class UserMenu extends JPanel {
     public final JButton btAdd;
     public final JButton btLearn;
     public final JButton btRepeat;
-    public final JButton btExercises;
+    //public final JButton btExercises;
     public final JButton btLogOut;
     public final JButton btCrNewBase;
     public final JButton btLBase;
@@ -55,13 +55,13 @@ public class UserMenu extends JPanel {
         c.gridy = 3;
 
         add(btRepeat, c);
-
+/*
         btExercises = new JButton("Exercises");
         btExercises.addActionListener(ramka);
         c.gridy = 4;
         
         add(btExercises, c);
-
+*/
 	btCrNewBase = new JButton("Create new base");
 	btCrNewBase.addActionListener(ramka);
 	c.gridy = 5;

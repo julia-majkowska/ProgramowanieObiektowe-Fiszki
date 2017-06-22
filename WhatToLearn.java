@@ -16,11 +16,11 @@ import java.util.Map;
 public class WhatToLearn extends JPanel implements ActionListener, ChangeListener {
 
     private final GridBagConstraints c;
-    private final JComboBox ltCategories;
+    public final JComboBox ltCategories;
     private final JLabel lbCardsTL;
     private final JLabel lbNumCards;
     public final JButton btContinue;
-    private JSlider slidCardsTL;
+    public JSlider slidCardsTL;
     private final Map<String, Integer> mapCat;
 
     public WhatToLearn(Frame ramka, String[] categories, Map<String, Integer> mapa) {
@@ -30,6 +30,7 @@ public class WhatToLearn extends JPanel implements ActionListener, ChangeListene
         c.weighty = 0.5;
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.CENTER;
+        System.out.println("adsa");
 
         ltCategories = new JComboBox(categories);
         ltCategories.addActionListener(this);
@@ -43,6 +44,9 @@ public class WhatToLearn extends JPanel implements ActionListener, ChangeListene
         lbCardsTL.setHorizontalAlignment(JLabel.CENTER);
 
         add(lbCardsTL, c);
+        
+        System.out.println("cos");
+        for(int i = 0; i < categories.length; i++) System.out.println(categories[i]);
 
         c.gridy = 2;
         slidCardsTL = new JSlider(JButton.HORIZONTAL, 0, mapa.get(categories[0]), mapa.get(categories[0])/2);
@@ -64,6 +68,8 @@ public class WhatToLearn extends JPanel implements ActionListener, ChangeListene
         btContinue = new JButton("Continue");
         btContinue.setFont(new Font(btContinue.getFont().getName(), Font.BOLD, 15));
         btContinue.addActionListener(ramka);
+        
+        System.out.println("adsa");
 
         add(btContinue, c);
 

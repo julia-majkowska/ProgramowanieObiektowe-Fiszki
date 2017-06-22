@@ -27,6 +27,7 @@ public class ReaderWindow extends JFileChooser implements ActionListener
             fis = new FileInputStream(plik);
             ois = new ObjectInputStream(fis);
             l = (NBase) ois.readObject();
+            System.out.println(l.topic_sort.size());
             obiekt.baza.setAll(l);
             fis.close();
             ois.close();
