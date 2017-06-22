@@ -7,7 +7,7 @@ public abstract class Drawing{
 	User mr;
 	
 	LinkedList<String> topics = new LinkedList<String>();
-	HashMap<String,Integer> topicsSize;
+	HashMap<String,Integer> topicsSize = new HashMap<String,Integer>();
 
 	abstract void countTopicsSize();
 	abstract void takeTopic(String t);
@@ -25,11 +25,11 @@ public abstract class Drawing{
 		}
 		return chosenCards;
 	}
-	Vector<RFiszka> selectCards(String topic, int howMany){
+	Queue<RFiszka> selectCards(String topic, int howMany){
 		int[] numbers = chooseCards(topic, howMany);
 		
 		takeTopic(topic);
-		Vector<RFiszka> selectedCards = new Vector<RFiszka>();
+		Queue<RFiszka> selectedCards = new LinkedList<RFiszka>();
 		for ( int i = 0; i < numbers.length; i ++ ){
 			selectedCards.add(takeCard(topic,numbers[i]));
 		}
@@ -40,6 +40,5 @@ public abstract class Drawing{
 		nfb = imr.nf;
 		mr = imr;
 		rfb = new RBase(mr.id, nfb, today);
-		countTopicsSize();
 	}
 }
