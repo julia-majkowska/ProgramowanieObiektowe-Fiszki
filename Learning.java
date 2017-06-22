@@ -22,6 +22,7 @@ public class Learning extends Drawing{
 	void countTopicsSize(){
 		topicsSize = new HashMap<String,Integer>();
 		for (String topic: nfb.topic_sort.keySet() ){
+			topics.add(topic);
 			int size = nfb.topic_sort.get(topic).size();
 			if (rfb.topic_sort.get(topic) != null ) 
 				size -= rfb.topic_sort.get(topic).size();

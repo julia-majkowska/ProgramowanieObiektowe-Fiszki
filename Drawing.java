@@ -6,6 +6,7 @@ public abstract class Drawing{
 	RBase rfb;
 	User mr;
 	
+	LinkedList<String> topics = new LinkedList<String>();
 	HashMap<String,Integer> topicsSize;
 
 	abstract void countTopicsSize();
