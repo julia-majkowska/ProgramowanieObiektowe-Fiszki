@@ -17,10 +17,18 @@ public class OknoWyboru extends JFrame implements ActionListener
      JPanel c2 = new JPanel();
      //JButton modyfikuj = new JButton("Modify");
      JButton dalej= new JButton("Learn");
+     public OknoWyboru(){
+        this.setTitle("List Creator"); //= new JFrame("Tworzenie listy");
+        this.setVisible(true);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setSize(600, 400);
+     }
      public OknoWyboru(NBase l){
         baza = l;
         this.setTitle("List Creator"); //= new JFrame("Tworzenie listy");
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 400);
         this.add(c);

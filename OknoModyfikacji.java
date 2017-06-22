@@ -15,7 +15,10 @@ public class OknoModyfikacji extends OknoWyboru implements ActionListener
 
      public OknoModyfikacji(NBase b)
      {
-         super(b);
+         //super(b);
+         //this.setVisible(true);
+         Okno_wpisywania x = new Okno_wpisywania(this, b);
+         //System.out.println("JESTEM TU");
      }
      public void buttons(){
          JButton wczytaj_liste = new JButton("Read list from file");

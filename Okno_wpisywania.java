@@ -120,6 +120,8 @@ implements ActionListener
     {
         lista = l;
         okno = new JFrame();
+        okno.setLocationRelativeTo(null);
+        okno.setVisible(true);
         okno.add(this);
         danePol = l.v;
         build();
@@ -130,6 +132,8 @@ implements ActionListener
         okno = o;
         okno.add(this);
         danePol = l.v;
+        build();
+        
     }
 
     public void wyczysc_okno(){
