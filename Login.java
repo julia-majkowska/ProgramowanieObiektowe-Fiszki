@@ -20,7 +20,7 @@ public class Login{
 				e.printStackTrace();
 				return false;
 			}
-			return true;
+			return mr != null;
 		}
 		else {
 			try{
@@ -29,7 +29,7 @@ public class Login{
 				System.out.println("Użytkownik o takich danych nie istnieje");
 				return false;
 			}
-			return true;
+			return mr != null;
 		}
 	}
 	Login(){
