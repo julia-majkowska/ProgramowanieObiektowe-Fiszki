@@ -265,7 +265,7 @@ implements ActionListener
     Vector<FieldData> danePol;
     JFrame okno;
     NBase pomoc;
-	public Edytor(NBase l)
+    public Edytor(NBase l)
     {
 		pomoc = l;
         danePol = l.v;
