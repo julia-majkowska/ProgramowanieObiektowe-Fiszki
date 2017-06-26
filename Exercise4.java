@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by mdragula on 21.06.17.
  */
-public class Exercise2 extends JPanel implements ActionListener {
+public class Exercise4 extends JPanel {
     private final GridBagConstraints c;
     private final JPanel paneQuestion;
     private final GridBagConstraints cQuest;
@@ -18,14 +18,12 @@ public class Exercise2 extends JPanel implements ActionListener {
     private final JPanel paneAnswer;
     private final GridBagConstraints cAns;
     private final JLabel lbAnswer;
-    private final JButton btShowAns;
-    public final JButton btFail;
-    public final JButton btOK;
-    private final String ans;
+    public final JButton btContinue;
 
-    public Exercise2(Frame ramka, String question, String answer) {
+
+    public Exercise4(Frame ramka, String question, String answer) {
         super(new GridBagLayout());
-        System.out.println("Ex2");
+        System.out.println("Ex4");
         c = new GridBagConstraints();
         c.weightx = 0.5;
         c.weighty = 0.5;
@@ -55,7 +53,7 @@ public class Exercise2 extends JPanel implements ActionListener {
         c.insets = new Insets(15,30,0,30);
 
         paneAnswer.setBackground(Color.white);
-        lbAnswer = new JLabel(" ");
+        lbAnswer = new JLabel(answer);
         lbAnswer.setFont(new Font(lbAnswer.getFont().getName(), Font.PLAIN, 15));
         paneAnswer.add(lbAnswer, cAns);
 
@@ -67,42 +65,12 @@ public class Exercise2 extends JPanel implements ActionListener {
 
         c.gridx = 0;
         c.gridy = 2;
-        btShowAns = new JButton("Show answer");
-        btShowAns.setFont(new Font(btShowAns.getFont().getName(), Font.BOLD, 15));
+        btContinue = new JButton("Next");
+        btContinue.setFont(new Font(btContinue.getFont().getName(), Font.BOLD, 15));
         c.insets = new Insets(2,2,2,2);
-        btShowAns.addActionListener(this);
+        btContinue.addActionListener(ramka);
 
-        add(btShowAns, c);
+        add(btContinue, c);
 
-
-        c.gridwidth = 1;
-        c.gridx = 0;
-        c.gridy = 3;
-        btFail = new JButton("Fail");
-        btFail.setFont(new Font(btFail.getFont().getFontName(), Font.BOLD, 15));
-        btFail.addActionListener(ramka);
-
-        add(btFail, c);
-        btFail.setVisible(false);
-
-        c.gridx = 1;
-        c.gridy = 3;
-        btOK = new JButton("OK");
-        btOK.setFont(new Font(btOK.getFont().getName(), Font.BOLD, 15));
-        btOK.addActionListener(ramka);
-
-        add(btOK, c);
-        btOK.setVisible(false);
-
-        ans = answer;
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        btShowAns.setVisible(false);
-        btFail.setVisible(true);
-        btOK.setVisible(true);
-        lbAnswer.setText(ans);
     }
 }

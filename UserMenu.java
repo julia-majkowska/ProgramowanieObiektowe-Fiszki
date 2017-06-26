@@ -15,16 +15,17 @@ public class UserMenu extends JPanel {
     public final JButton btAdd;
     public final JButton btLearn;
     public final JButton btRepeat;
-    //public final JButton btExercises;
     public final JButton btLogOut;
-    public final JButton btCrNewBase;
-    public final JButton btLBase;
+
 
     public UserMenu(Frame ramka) {
         super(new GridBagLayout());
         c = new GridBagConstraints();
         c.weightx = 0.5;
         c.weighty = 0.5;
+
+        //System.out.println("bleeeeeeeee");
+
 
         btLogOut = new JButton("Log Out");
         btLogOut.addActionListener(ramka);
@@ -35,7 +36,6 @@ public class UserMenu extends JPanel {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.CENTER;
-
 
         btAdd = new JButton("Add");
         btAdd.addActionListener(ramka);
@@ -55,28 +55,6 @@ public class UserMenu extends JPanel {
         c.gridy = 3;
 
         add(btRepeat, c);
-/*
-        btExercises = new JButton("Exercises");
-        btExercises.addActionListener(ramka);
-        c.gridy = 4;
-        
-        add(btExercises, c);
-*/
-	btCrNewBase = new JButton("Create new base");
-	btCrNewBase.addActionListener(ramka);
-	c.gridy = 5;
-
-	add(btCrNewBase, c);
-
-	btLBase = new JButton("Load from file");
-	btLBase.addActionListener(ramka);
-	c.gridy = 6;
-
-	add(btLBase, c);
-
-
-	//c.insets = new Insets(15,240,100,240);
-
 
     }
 

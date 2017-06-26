@@ -17,7 +17,7 @@ public class Exercise3 extends JPanel implements ActionListener {
     private final JLabel lbQuestion;
     private final JPanel paneAnswer;
     private final GridBagConstraints cAns;
-    private final JLabel lbAnswer;
+    public final JLabel lbAnswer;
     public final JButton btContinue;
     private final String ans;
     private final JPanel paneButtons;
@@ -26,6 +26,7 @@ public class Exercise3 extends JPanel implements ActionListener {
 
     public Exercise3(Frame ramka, String question, String answer, String[] letters) {
         super(new GridBagLayout());
+        System.out.println("Ex3");
         c = new GridBagConstraints();
         c.weightx = 0.5;
         c.weighty = 0.5;
