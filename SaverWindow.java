@@ -42,8 +42,7 @@ public class SaverWindow extends JFileChooser implements ActionListener
         }
         
     }
-
-    public void actionPerformed(ActionEvent e)
+    public void make()
     {
         obiekt.add(this);
         int result = this.showSaveDialog(obiekt);
@@ -53,5 +52,11 @@ public class SaverWindow extends JFileChooser implements ActionListener
             } else if (result == JFileChooser.CANCEL_OPTION) {
                 System.err.println("Cancel was selected");
         }
+    
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        make();
     }
 }

@@ -3,7 +3,7 @@ import java.util.*;
 public abstract class Fiszka implements Serializable{
   abstract int cmp(); // cmp - wartość, po której będę porównywać słówka do losowania - dla nowych to level - najpierw ucz się level 1, potem 2, 3
   //dla powtórek to liczba wykonanych powtórek - te, które miały najmniej, najszybciej zostaną zapomniane
-  int number_of_fields, id;
+  int number_of_fields, id = -1;
   Field [] fields;
 
   public void ensure_capacity(int i){

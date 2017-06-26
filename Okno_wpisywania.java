@@ -43,7 +43,7 @@ class TypeSelection extends JPanel implements ActionListener
         menucont.setVisible(true);
         this.add(menucont);
 
-        String [] hasla = {"TEKST", "OBRAZEK"};
+        String [] hasla = {"TEXT", "PICTURE"};
         JComboBox menu = new JComboBox(hasla);
         menu.setSelectedIndex(0);
         menu.addActionListener(new ActionListener(){
@@ -120,8 +120,6 @@ implements ActionListener
     {
         lista = l;
         okno = new JFrame();
-        okno.setLocationRelativeTo(null);
-        okno.setVisible(true);
         okno.add(this);
         danePol = l.v;
         build();
@@ -133,7 +131,6 @@ implements ActionListener
         okno.add(this);
         danePol = l.v;
         build();
-        
     }
 
     public void wyczysc_okno(){
@@ -170,10 +167,10 @@ implements ActionListener
         c.add(kontener);
         if(danePol.isEmpty())
         {   
-            danePol.add(new FieldData("TEKST", "Kategoria"));
-            new ImportedSelection(kontener, danePol,c,"Kategoria", "TEKST",0 ).init();
-            new DefaultSelection(kontener, danePol,c, "Hasło").init();
-            new DefaultSelection(kontener, danePol,c, "Znaczenie").init();
+            danePol.add(new FieldData("TEXT", "Category"));
+            new ImportedSelection(kontener, danePol,c,"Category", "TEXT",0 ).init();
+            new DefaultSelection(kontener, danePol,c, "Phrase").init();
+            new DefaultSelection(kontener, danePol,c, "Meaning").init();
             
         }
         else for(int i = 0; i< danePol.size(); i++){

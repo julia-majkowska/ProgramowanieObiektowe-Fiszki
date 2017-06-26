@@ -203,7 +203,7 @@ class InputVerse implements ActionListener
         akt_fiszka.ensure_capacity(danePol.size() -1);
         for (int i = 0; i< danePol.size(); i++)
         {
-            if(danePol.get(i).typ.equals("OBRAZEK") ) akt_fiszka.setDefault(new Picture("sad-smiley.png"), i);
+            if(danePol.get(i).typ.equals("PICTURE") ) akt_fiszka.setDefault(new Picture("sad-smiley.png"), i);
             else akt_fiszka.setDefault(new Text("Input contents"), i);
         }
     }
@@ -218,7 +218,7 @@ class InputVerse implements ActionListener
         {
             FieldData f = danePol.get(i);
             Selected s1;
-            if(f.typ.equals("OBRAZEK"))     s1= new SelectedPicture(kontener, akt_fiszka, i);
+            if(f.typ.equals("PICTURE"))     s1= new SelectedPicture(kontener, akt_fiszka, i);
             else    s1 = new SelectedText(kontener, akt_fiszka, i);
             s1.build();
             s[i] = ((Component) s1);
@@ -321,6 +321,8 @@ implements ActionListener
                                 public void actionPerformed(ActionEvent e)
                                 {
                                   pomoc.setBase(lista);
+                                  SaverWindow x = new SaverWindow();
+                                  x.make();
                                   okno.dispose();
                                   //System.exit(0);
                                 }});
@@ -331,7 +333,8 @@ implements ActionListener
         JButton nowa_fiszka = new JButton("New cue card");
         kontener.add(nowa_fiszka);
         //System.err.println("Wypisuje liste" + lista.size());
-        for (int i = 0; i< lista.size(); i++) new OldVerse(kontener, danePol, lista, i).build();
+        for (int i = 0; i< lista.size(); i++) 
+            if(lista.get(i).number_of_fields >0) new OldVerse(kontener, danePol, lista, i).build();
         
         nowa_fiszka.addActionListener(new InputVerse(kontener, danePol, lista));
         this.revalidate();
